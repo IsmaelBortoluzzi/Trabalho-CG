@@ -32,7 +32,9 @@ function createScene() {
     container = document.getElementById('ThreeJS');
     container.appendChild(renderer.domElement);
 
-    window.addEventListener('resize', handleWindowResize, false);
+    renderer.setSize(WIDTH, HEIGHT);
+    camera.aspect = WIDTH / HEIGHT;
+    camera.updateProjectionMatrix();
 }
 
 function create() {}
