@@ -1,0 +1,8 @@
+html {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-image: url("../images/8k_stars_milky_way.jpg");
+	background-size: cover;
+}
