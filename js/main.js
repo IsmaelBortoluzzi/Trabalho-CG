@@ -6,7 +6,34 @@ var scene, camera, fieldOfView, aspectRatio, nearPlane, farPlane, renderer, cont
 var HEIGHT, WIDTH;
 var clouds, light, light2, earth, rocket, moon, earthCenter;
 
-function createScene() {}
+function createScene() {
+    HEIGHT = window.innerHeight;
+    WIDTH = window.innerWidth;
+
+    scene = new THREE.Scene();
+    aspectRatio = WIDTH / HEIGHT;
+    fieldOfView = 60;
+    nearPlane = 1;
+    farPlane = 10000;
+    camera = new THREE.PerspectiveCamera(
+        fieldOfView,
+        aspectRatio,
+        nearPlane,
+        farPlane
+    );
+
+    camera.position.x = 0;
+    camera.position.z = 0;
+    camera.position.y = 0;
+
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(WIDTH, HEIGHT);
+    renderer.shadowMap.enabled = true;
+    container = document.getElementById('ThreeJS');
+    container.appendChild(renderer.domElement);
+
+    window.addEventListener('resize', handleWindowResize, false);
+}
 
 function create() {}
 
