@@ -46,6 +46,25 @@ class Earth {
     }
 }
 
+class Rocket {
+    constructor() {
+        this.mesh = new THREE.Object3D();
+        this.rocket;
+        var loader = new GLTFLoader();
+        var rocket;
+        loader.load("models/rocket.gltf",
+            (gltf) => {
+                rocket = gltf.scene;
+                rocket.rotation.z =  Math.PI/-2;
+                rocket.scale.set(0.3, 0.3, 0.3);
+                rocket.receiveShadow = true
+                this.rocket = rocket;
+                this.mesh.add(rocket);
+            }
+        );
+    }
+}
+
 function createLight() {
     earthLight = new THREE.DirectionalLight();
     earthLight.position.set(150, 600, 0);
@@ -59,10 +78,17 @@ function createEarth() {
     scene.add(earth.mesh);
 }
 
+function createRocket() {
+    rocket = new Rocket();
+    rocket.mesh.position.y = 100;
+    scene.add(rocket.mesh);
+}
+
 function create() {
-    createScene()
+    createScene();
     createEarth();
-    createLight()
+    createRocket();
+    createLight();
 }
 
 function loop() {
