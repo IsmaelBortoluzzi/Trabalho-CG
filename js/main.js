@@ -2,14 +2,15 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
+const HEIGHT = window.innerHeight;
+const WIDTH = window.innerWidth;
+const EARTH_Y_POSITION = -600;
+
 var scene, camera, fieldOfView, aspectRatio, nearPlane, farPlane, renderer, container;
-var HEIGHT, WIDTH;
-var earthLight, moonLight, earth, rocket, moon;
+var clouds, earthLight, moonLight /*sonata*/, earth, rocket, moon;
+
 
 function createScene() {
-    HEIGHT = window.innerHeight;
-    WIDTH = window.innerWidth;
-
     scene = new THREE.Scene();
     aspectRatio = WIDTH / HEIGHT;
     fieldOfView = 60;
@@ -23,7 +24,7 @@ function createScene() {
     );
 
     camera.position.x = 0;
-    camera.position.z = 3000;
+    camera.position.z = 1000;
     camera.position.y = 100;
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -41,7 +42,22 @@ class Earth {
     constructor() {
         var geom = new THREE.SphereGeometry(600, 600, 800);
         var texture = new THREE.TextureLoader().load('images/8k_earth.jpg');
-        var mat = new THREE.MeshPhongMaterial({map: texture});
+        var specular = new THREE.TextureLoader().load('images/water_4k.png');
+        var mat = new THREE.MeshPhongMaterial({
+            specularMap: specular, map: texture
+        });
+        this.mesh = new THREE.Mesh(geom, mat);
+    }
+}
+
+class Clouds {
+    constructor() {
+        var geom = new THREE.SphereGeometry(600.1, 600, 800);  // 600.1 to be just a bit higher than the earth to envelop it
+        var texture = new THREE.TextureLoader().load('images/fair_clouds_4k.png');
+        var mat = new THREE.MeshPhongMaterial({
+            map: texture,
+            transparent: true
+          });
         this.mesh = new THREE.Mesh(geom, mat);
     }
 }
@@ -74,8 +90,14 @@ function createLight() {
 
 function createEarth() {
     earth = new Earth();
-    earth.mesh.position.y = -600;
+    earth.mesh.position.y = EARTH_Y_POSITION;
     scene.add(earth.mesh);
+}
+
+function createClouds() {
+    clouds = new Clouds();
+    clouds.mesh.position.y = EARTH_Y_POSITION
+    scene.add(clouds.mesh)
 }
 
 function createRocket() {
@@ -87,6 +109,7 @@ function createRocket() {
 function create() {
     createScene();
     createEarth();
+    createClouds();
     createRocket();
     createLight();
 }
