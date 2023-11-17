@@ -14,7 +14,7 @@ var clouds, earthLight, moonLight /*sonata*/, earth, rocket, moon, earthCenter;
 class Earth {
     constructor() {
         var geom = new THREE.SphereGeometry(600, 600, 800);
-        var texture = new THREE.TextureLoader().load('images/8k_earth.jpg');
+        var texture = new THREE.TextureLoader().load('images/earth_8k.jpg');
         var specular = new THREE.TextureLoader().load('images/water_4k.png');
         var mat = new THREE.MeshPhongMaterial({
             specularMap: specular, map: texture
@@ -50,7 +50,7 @@ class EarthCenter {
 class Moon {
     constructor() {
         var geom = new THREE.SphereGeometry(600, 600, 800);
-        var texture = new THREE.TextureLoader().load('images/8k_moon.jpg');
+        var texture = new THREE.TextureLoader().load('images/moon_8k.jpg');
         var mat = new THREE.MeshPhongMaterial({ map: texture });
         this.mesh = new THREE.Mesh(geom, mat);
         this.mesh.position.y = EARTH_Y_POSITION + 1500;
@@ -151,11 +151,26 @@ function create() {
     createLight();
 }
 
+let direction= 1;
+function updateCameraDistance() {
+    camera.position.z += direction;
+
+    if (camera.position.z == 500 || camera.position.z == 2000) {
+        direction *= -1;
+    }
+
+    console.log(camera.position.z);
+}
+
 function loop() {
-    earth.mesh.rotateZ(.001);
-    clouds.mesh.rotateZ(.001);
+    earth.mesh.rotateY(-0.001);
+    clouds.mesh.rotateY(-0.001);
+    earth.mesh.rotateZ(0.0001);
+    clouds.mesh.rotateZ(0.0001);
     earthCenter.mesh.rotateZ(.005);
     rocket.mesh.rotateX(.015);
+
+    updateCameraDistance()
 
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
