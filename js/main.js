@@ -155,6 +155,7 @@ function loop() {
     earth.mesh.rotateZ(.001);
     clouds.mesh.rotateZ(.001);
     earthCenter.mesh.rotateZ(.005);
+    rocket.mesh.rotateX(.015);
 
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
