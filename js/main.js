@@ -91,7 +91,7 @@ function createScene() {
     );
 
     camera.position.x = 0;
-    camera.position.z = 1000;
+    camera.position.z = 500;
     camera.position.y = ROCKET_Y_POSITION;
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -151,26 +151,26 @@ function create() {
     createLight();
 }
 
-let direction= 1;
+let direction = 1;
 function updateCameraDistance() {
     camera.position.z += direction;
 
-    if (camera.position.z == 500 || camera.position.z == 2000) {
+    if (camera.position.z == 500 || camera.position.z == 2500) {
         direction *= -1;
     }
-
-    console.log(camera.position.z);
 }
 
 function loop() {
     earth.mesh.rotateY(-0.001);
     clouds.mesh.rotateY(-0.001);
+    
     earth.mesh.rotateZ(0.0001);
     clouds.mesh.rotateZ(0.0001);
     earthCenter.mesh.rotateZ(.005);
+
     rocket.mesh.rotateX(.015);
 
-    updateCameraDistance()
+    updateCameraDistance();
 
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
